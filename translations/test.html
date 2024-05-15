@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traducción Estática</title>
+</head>
+<body>
+    <h1 id="helloText">Hello</h1>
+    <p id="welcomeText">Welcome to our website</p>
+    <button onclick="changeLanguage()">Change Language</button>
+
+    <script>
+        let currentLanguage = 'en'; // Iniciar con inglés
+
+        // Función para cargar el archivo de traducción correspondiente
+        function loadTranslation(language) {
+            fetch(`translations/${language}.json`)
+            .then(response => response.json())
+            .then(data => {
+                // Reemplazar el texto en la página con las traducciones cargadas
+                document.getElementById('helloText').innerText = data.hello;
+                document.getElementById('welcomeText').innerText = data.welcome;
+                // Actualizar el idioma actual
+                currentLanguage = language;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Función para cambiar el idioma y cargar la traducción correspondiente
+        function changeLanguage() {
+            if (currentLanguage === 'en') {
+                loadTranslation('es'); // Cambiar a español
+            } else {
+                loadTranslation('en'); // Cambiar a inglés
+            }
+        }
+
+        // Cargar la traducción inicial al cargar la página
+        loadTranslation(currentLanguage);
+    </script>
+</body>
+</html>
